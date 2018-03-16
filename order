@@ -1,4 +1,0 @@
-    1  add-apt-repository "ppa:patrickdk/general-lucid"
-    2  apt-get update
-    3  apt-get install iperf3
-    4  iperf3 -c 10.136.32.50 -t 30 -w 512k -f M -p 1111

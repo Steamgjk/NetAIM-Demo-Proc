@@ -1,19 +1,14 @@
-all: rdma_server rdma_client
-CC=gcc
-LIBS=-libverbs -lrdmacm
-CFLAGS=-O2 -Wall
+CC = g++  
+CFLAGS = -Wall -g  
+LDFLAGS = -lm  
+PROC_NAME = proc
 
-rdma_server.o: rdma_server.c
-	$(CC) $(CFLAGS) -c rdma_server.c
-rdma_client.o: rdma_client.c
-	$(CC) $(CFLAGS) -c rdma_client.c 
-rdma_common.o: rdma_common.c
-	$(CC) $(CFLAGS) -c rdma_common.c
+all: clean *.o ${PROC_NAME}
 
-rdma_server: rdma_server.o rdma_common.o
-	$(CC) $(CFLAGS) rdma_server.o rdma_common.o -o rdma_server $(LIBS)
-
-rdma_client: rdma_client.o rdma_common.o
-	$(CC) $(CFLAGS) rdma_client.o rdma_common.o -o rdma_client $(LIBS)
-clean:
-	rm -rf *.o rdma_server rdma_client *~
+RS.o : RS.h  
+	${CC} ${CFLAGS} -c RS.cpp
+${PROC_NAME} : RS.o Main.o  
+	${CC} ${CFLAGS} RS.o Main.o ${LDFLAGS} -o ${PROC_NAME}   
+clean:  
+	rm -rf *.o  
+	rm -rf ${PROC_NAME} 
