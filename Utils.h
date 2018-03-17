@@ -28,6 +28,7 @@ public:
 	static void GetPeers(int level, int addr[], int peers[], int k, int n);
 	static int Addr2Val(int addr[], int k, int n);
 	static void Val2Addr(int val, int addr[], int k, int n);
+	static void array_split(float*& arr, int arr_len, int n, float* portion_array[], int portion_lens[]);
 };
 
 #endif

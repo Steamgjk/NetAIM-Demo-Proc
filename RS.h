@@ -8,6 +8,15 @@
 #define MAX 10
 #define SERVER_NUM 9
 using namespace std;
+struct DataTuple
+{
+	int array_id;
+	int step;
+	float* data;
+	int len;
+	int src_id;
+	int recv_id;
+};
 class RS
 {
 public:

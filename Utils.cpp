@@ -1,5 +1,6 @@
 #include "Utils.h"
-int Utils::pre_connect(string ip, int port){
+int Utils::pre_connect(string ip, int port)
+{
 	printf("pre_connect\n");
 	int listen_fd = socket(AF_INET, SOCK_STREAM, 0);
 	struct sockaddr_in sin;
@@ -28,8 +29,9 @@ int Utils::pre_connect(string ip, int port){
 	connected_fd = accept(listen_fd, (struct sockaddr*) & (client_addr), (socklen_t*)&addr_len);
 	return connected_fd;
 }
-int Utils::on_connect(string local_ip, int local_port,\
-							 string remote_ip, int remote_port){
+int Utils::on_connect(string local_ip, int local_port, \
+                      string remote_ip, int remote_port)
+{
 	printf("on_connect  %s %s  %d\n", local_ip.c_str(), remote_ip.c_str(), remote_port );
 	struct sockaddr_in ser_in, local_in;/*server ip and local ip*/
 	memset(&ser_in, 0, sizeof(ser_in));
@@ -69,30 +71,57 @@ int Utils::on_connect(string local_ip, int local_port,\
 	return tmp_skfd;
 }
 
-void Utils::GetPeers(int level, int addr[], int peers[], int k, int n){
-	int i =0;
-	for(i = 0; i< n-1; i++){
+void Utils::GetPeers(int level, int addr[], int peers[], int k, int n)
+{
+	int i = 0;
+	for (i = 0; i < n - 1; i++)
+	{
 		addr[level] = i;
 		peers[i] =  Utils::Addr2Val(addr, k, n);
 	}
 }
-int Utils::Addr2Val(int addr[], int k, int n){
+int Utils::Addr2Val(int addr[], int k, int n)
+{
 	int sum = 0;
 	int i = 0;
-	for( i = k-1; i >=0 ; i--){
-		sum = sum*n + addr[i];
+	for ( i = k - 1; i >= 0 ; i--)
+	{
+		sum = sum * n + addr[i];
 	}
 	return sum;
 }
 
-void Utils::Val2Addr(int val, int addr[], int k, int n){
-	int i = k -1;
-	for(i = k-1; i>= 0; i--){
+void Utils::Val2Addr(int val, int addr[], int k, int n)
+{
+	int i = k - 1;
+	for (i = k - 1; i >= 0; i--)
+	{
 		addr[i] = 0;
 	}
-	for(i = 0; i< k; i++){
-		addr[i] = val%n;
-		val = val/n;
+	for (i = 0; i < k; i++)
+	{
+		addr[i] = val % n;
+		val = val / n;
+	}
+
+}
+void Utils::array_split(float*& arr, int arr_len, int n, float* portion_array[], int portion_lens[])
+{
+	int base_len = arr_len / n;
+	int residual_len = arr_len - base_len * n;
+	int i = 0;
+	for (i = 0; i < n; i++)
+	{
+		portion_lens[i] = base_len;
+		if (i < residual_len)
+		{
+			portion_lens[i] += 1;
+		}
+	}
+	portion_array[0] = arr;
+	for (i = 1; i < n; i++)
+	{
+		portion_array[i] = portion_array[i - 1] + portion_lens[i - 1];
 	}
 
 }
